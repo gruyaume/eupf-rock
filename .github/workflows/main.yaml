@@ -25,6 +25,7 @@ jobs:
           path: ${{ steps.rockcraft.outputs.rock }}
 
   publish-rock:
+    needs: build-rock
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
