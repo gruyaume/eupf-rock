@@ -1,0 +1,57 @@
+name: Main
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+
+  build-rock:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - uses: canonical/craft-actions/rockcraft-pack@main
+        id: rockcraft
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rock
+          path: ${{ steps.rockcraft.outputs.rock }}
+
+  publish-rock:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3.2.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install skopeo
+        run: |
+          sudo snap install --devmode --channel edge skopeo
+      - uses: actions/download-artifact@v4
+        with:
+          name: rock
+
+      - name: Import and push to github package
+        run: |
+          image_name="$(yq '.name' rockcraft.yaml)"
+          version="$(yq '.version' rockcraft.yaml)"
+          rock_file=$(ls *.rock | tail -n 1)
+          sudo skopeo \
+            --insecure-policy \
+            copy \
+            oci-archive:"${rock_file}" \
+            docker-daemon:"ghcr.io/gruyaume/${image_name}:${version}"
+          docker push ghcr.io/gruyaume/${image_name}:${version}
