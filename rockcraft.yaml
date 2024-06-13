@@ -36,4 +36,8 @@ parts:
       craftctl default
     organize:
       bin/cmd: bin/eupf
-  
+
+  ip:
+    plugin: nil
+    stage-packages:
+      - iproute2
