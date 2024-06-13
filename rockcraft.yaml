@@ -1,5 +1,5 @@
 name: eupf
-base: ubuntu@24.04
+base: bare
 build-base: ubuntu@24.04
 version: '0.6.4'
 summary: eUPF
@@ -34,6 +34,8 @@ parts:
     override-build: |
       go generate -v ./cmd/...
       craftctl default
+    stage-packages:
+      - libc6_libs
     organize:
       bin/cmd: bin/eupf
 
