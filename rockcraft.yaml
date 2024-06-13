@@ -36,6 +36,7 @@ parts:
       craftctl default
     stage-packages:
       - libc6_libs
+      - base-files_lib
     organize:
       bin/cmd: bin/eupf
 
