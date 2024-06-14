@@ -41,3 +41,8 @@ parts:
     plugin: nil
     stage-packages:
       - iproute2
+
+  tcpdump:
+    plugin: nil
+    stage-packages:
+      - tcpdump
