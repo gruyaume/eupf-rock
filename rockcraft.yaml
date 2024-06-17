@@ -48,3 +48,8 @@ parts:
       - tcpdump
     overlay-script: |
       useradd -R $CRAFT_OVERLAY -M -r tcpdump
+
+  iptables:
+    plugin: nil
+    stage-packages:
+      - iptables
