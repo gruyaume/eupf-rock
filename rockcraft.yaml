@@ -46,3 +46,5 @@ parts:
     plugin: nil
     stage-packages:
       - tcpdump
+    overlay-script: |
+      useradd -R $CRAFT_OVERLAY -M -r tcpdump
