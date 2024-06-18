@@ -19,9 +19,9 @@ parts:
   
   eupf:
     plugin: go
-    source: https://github.com/edgecomllc/eupf.git
+    source: https://github.com/gruyaume/eupf.git
     source-type: git
-    source-tag: v0.6.4
+    source-branch: dev-revert
     after:
       - swag
     build-snaps:
