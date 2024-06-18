@@ -21,7 +21,7 @@ parts:
     plugin: go
     source: https://github.com/gruyaume/eupf.git
     source-type: git
-    source-branch: dev-revert
+    source-branch: dev-dev
     after:
       - swag
     build-snaps:
