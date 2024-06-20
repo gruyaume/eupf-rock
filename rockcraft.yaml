@@ -1,5 +1,5 @@
 name: eupf
-base: ubuntu@24.04
+base: bare
 build-base: ubuntu@24.04
 version: '0.6.4'
 summary: eUPF
@@ -31,6 +31,9 @@ parts:
       - gcc-multilib
       - libbpf-dev
       - llvm
+    stage-packages:
+      - libc6_libs
+      - base-files_lib
     override-build: |
       go generate -v ./cmd/...
       craftctl default
@@ -41,13 +44,6 @@ parts:
     plugin: nil
     stage-packages:
       - iproute2
-
-  tcpdump:
-    plugin: nil
-    stage-packages:
-      - tcpdump
-    overlay-script: |
-      useradd -R $CRAFT_OVERLAY -M -r tcpdump
 
   iptables:
     plugin: nil
