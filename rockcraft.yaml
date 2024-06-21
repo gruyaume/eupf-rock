@@ -25,11 +25,11 @@ parts:
       - libc6_libs
       - base-files_lib
     override-build: |
-      go install github.com/swaggo/swag/cmd/swag@v1.8.12
-      export PATH=$(go env GOPATH)/bin:$PATH
+      rm -f $CRAFT_PART_INSTALL/bin/swag
+      GOBIN=/usr/local/bin/ go install github.com/swaggo/swag/cmd/swag@v1.8.12
       go generate -v ./cmd/...
       craftctl default
-      rm $CRAFT_PART_INSTALL/bin/swag
+      rm -f $CRAFT_PART_INSTALL/bin/swag
     organize:
       bin/cmd: bin/eupf
 
