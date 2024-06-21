@@ -1,5 +1,5 @@
 name: eupf
-base: ubuntu@24.04
+base: bare
 build-base: ubuntu@24.04
 version: '0.6.4'
 summary: eUPF
@@ -9,21 +9,11 @@ platforms:
   amd64:
 
 parts:
-  swag:
-    plugin: go
-    source: https://github.com/swaggo/swag.git
-    source-type: git
-    source-tag: v1.8.12
-    build-snaps:
-      - go/1.22/stable
-  
   eupf:
     plugin: go
     source: https://github.com/gruyaume/eupf.git
     source-type: git
     source-branch: dev-gopfcp
-    after:
-      - swag
     build-snaps:
       - go/1.22/stable
     build-packages:
@@ -31,9 +21,16 @@ parts:
       - gcc-multilib
       - libbpf-dev
       - llvm
+    stage-packages:
+      - libc6_libs
+      - base-files_lib
     override-build: |
+      rm -f $CRAFT_PART_INSTALL/bin/swag
+      GOBIN=/usr/local/bin/ go install github.com/swaggo/swag/cmd/swag@v1.8.12
       go generate -v ./cmd/...
       craftctl default
+      rm -f $CRAFT_PART_INSTALL/bin/swag
+      strip -s $CRAFT_PART_INSTALL/bin/*
     organize:
       bin/cmd: bin/eupf
 
@@ -41,15 +38,3 @@ parts:
     plugin: nil
     stage-packages:
       - iproute2
-
-  tcpdump:
-    plugin: nil
-    stage-packages:
-      - tcpdump
-    overlay-script: |
-      useradd -R $CRAFT_OVERLAY -M -r tcpdump
-
-  iptables:
-    plugin: nil
-    stage-packages:
-      - iptables
