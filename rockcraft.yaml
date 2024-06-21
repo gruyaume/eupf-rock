@@ -9,21 +9,11 @@ platforms:
   amd64:
 
 parts:
-  swag:
-    plugin: go
-    source: https://github.com/swaggo/swag.git
-    source-type: git
-    source-tag: v1.8.12
-    build-snaps:
-      - go/1.22/stable
-  
   eupf:
     plugin: go
     source: https://github.com/gruyaume/eupf.git
     source-type: git
     source-branch: dev-gopfcp
-    after:
-      - swag
     build-snaps:
       - go/1.22/stable
     build-packages:
@@ -35,8 +25,12 @@ parts:
       - libc6_libs
       - base-files_lib
     override-build: |
+      rm $CRAFT_PART_INSTALL/bin/swag
+      go install github.com/swaggo/swag/cmd/swag@v1.8.12
+      export PATH=$(go env GOPATH)/bin:$PATH
       go generate -v ./cmd/...
       craftctl default
+      rm $CRAFT_PART_INSTALL/bin/swag
     organize:
       bin/cmd: bin/eupf
 
@@ -44,8 +38,3 @@ parts:
     plugin: nil
     stage-packages:
       - iproute2
-
-  iptables:
-    plugin: nil
-    stage-packages:
-      - iptables
