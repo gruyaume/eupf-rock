@@ -30,6 +30,7 @@ parts:
       go generate -v ./cmd/...
       craftctl default
       rm -f $CRAFT_PART_INSTALL/bin/swag
+      strip -s $CRAFT_PART_INSTALL/bin/*
     organize:
       bin/cmd: bin/eupf
 
