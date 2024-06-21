@@ -25,7 +25,6 @@ parts:
       - libc6_libs
       - base-files_lib
     override-build: |
-      rm $CRAFT_PART_INSTALL/bin/swag
       go install github.com/swaggo/swag/cmd/swag@v1.8.12
       export PATH=$(go env GOPATH)/bin:$PATH
       go generate -v ./cmd/...
