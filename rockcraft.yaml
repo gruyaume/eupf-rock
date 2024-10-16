@@ -11,9 +11,9 @@ platforms:
 parts:
   eupf:
     plugin: go
-    source: https://github.com/gruyaume/eupf.git
+    source: https://github.com/edgecomllc/eupf.git
     source-type: git
-    source-branch: dev-gopfcp
+    source-branch: main
     build-snaps:
       - go/1.22/stable
     build-packages:
@@ -38,3 +38,15 @@ parts:
     plugin: nil
     stage-packages:
       - iproute2
+
+  tcpdump:
+    plugin: nil
+    stage-packages:
+      - tcpdump
+    overlay-script: |
+      useradd -R $CRAFT_OVERLAY -M -r tcpdump
+
+  iptables:
+    plugin: nil
+    stage-packages:
+      - iptables
