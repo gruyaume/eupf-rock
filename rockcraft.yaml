@@ -1,5 +1,5 @@
 name: eupf
-base: bare
+base: ubuntu@24.04
 build-base: ubuntu@24.04
 version: '0.6.4'
 summary: eUPF
