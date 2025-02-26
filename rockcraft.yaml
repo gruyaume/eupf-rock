@@ -13,7 +13,7 @@ parts:
     plugin: go
     source: https://github.com/edgecomllc/eupf.git
     source-type: git
-    source-branch: main
+    source-commit: a1b6f6a036b8b1943f7e42a72c99bbcb3ade127d
     build-snaps:
       - go/1.22/stable
     build-packages:
